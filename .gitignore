@@ -1,0 +1,4 @@
+.vagrant
+dotNetFx40.exe
+box_modules
+.DS_Store
