@@ -1,0 +1,37 @@
+#Vagrant.require_plugin "vagrant-windows"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "win2012r2x64"
+
+  config.vm.provider :virtualbox do |v, override|
+    #override.vm.box_url = "URL_HERE"
+    v.gui = true
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--memory", "2048"]
+    v.customize ["modifyvm", :id, "--audio", "none"]
+    v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    v.customize ["modifyvm", :id, "--usb", "off"]
+  end
+
+  config.vm.guest = :windows
+  config.windows.halt_timeout = 20
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+  config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8080, id: "web", auto_correct: true
+
+  config.vm.synced_folder "~", "/home"
+  config.vm.synced_folder "puppet/modules", "/ProgramData/PuppetLabs/puppet/etc/modules"
+  #config.vm.synced_folder "resources/templates/_templates", "/code/_templates"
+
+  # This shell provisioner installs chocolatey and puppet.
+  # Run me first, to get box setup, then comment this and
+  # change the provisioner from empty.pp to provision.pp
+  config.vm.provision :shell, :path => "shell/main.cmd"
+
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "puppet/manifests"
+    puppet.manifest_file  = "empty.pp"
+    puppet.module_path = "puppet/modules"
+  end
+end
