@@ -10,7 +10,7 @@ class chocolateyserver {
   # package install
   package {'chocolatey.server':
     ensure => installed,
-    #source => 'C:\vagrant\resources\packages',
+    #source   => 'C:\vagrant\resources\packages',
   } ->
 
   # add windows features
