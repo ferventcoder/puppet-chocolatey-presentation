@@ -1,4 +1,7 @@
-#Vagrant.require_plugin "vagrant-windows"
+Vagrant.require_version ">= 1.3.5" #, "< 1.6.5"
+if Vagrant::VERSION < '1.6.0'
+  Vagrant.require_plugin "vagrant-windows"
+end
 
 Vagrant.configure("2") do |config|
   config.vm.box = "win2012r2x64"
@@ -11,6 +14,19 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--audio", "none"]
     v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     v.customize ["modifyvm", :id, "--usb", "off"]
+  end
+
+  config.vm.provider :vmware_fusion do |v, override|
+    #override.vm.box_url = ENTER A URL TO A VALID VMWARE FUSION BASE BOX OF win2012r2
+    v.gui = true
+    v.vmx["memsize"] = "2048"
+    v.vmx["usb.present"] = "false"
+    v.vmx["sound.present"] = "false"
+    v.vmx["ide1:0.present"] = "false"
+  end
+
+  if Vagrant::VERSION >= '1.6.0'
+    config.vm.communicator = "winrm"
   end
 
   config.vm.guest = :windows
