@@ -1,4 +1,8 @@
-Please install
+Please navigate up a directory on the command line and run the following:
+
+`librarian-puppet install --clean --path=./modules`
+
+It should set up the following:
 
  * puppetlabs/acl
  * rismoney/chocolatey

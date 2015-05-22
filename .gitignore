@@ -7,3 +7,6 @@ demo/resources/choco
 demo/resources/installers
 demo/resources/packages
 demo/resources/NetFx4
+.librarian
+.tmp
+Puppetfile.lock
