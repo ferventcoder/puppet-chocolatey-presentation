@@ -2,56 +2,70 @@ case $operatingsystem {
   'windows':    {
     Package {
       provider => chocolatey,
-      #source   => 'C:\vagrant\resources\packages',
+      source   => 'C:\vagrant\resources\packages',
     }
   }
 }
 
+#include chocolatey
+class {'chocolatey':
+  chocolatey_download_url => 'file:///C:/vagrant/resources/packages/chocolatey.0.9.9.11.nupkg',
+  use_7zip                => false,
+  log_output              => true,
+}
+
+# disable default source
+chocolatey::source {'chocolatey':
+  enable => false,
+}
+
+# chocolatey::source {'localpackages':
+#   ensure    => 'present',
+#   location  => 'C:\vagrant\resources\packages'
+# }
+
 # this contains the bits to install the custom server
-#include chocolatey_server
+include chocolatey_server
+
+chocolatey::source {'localhost':
+  ensure    => 'present',
+  location  => 'http://localhost/chocolatey',
+}
+
+# chocolatey_source {'local':
+#   ensure    => 'present',
+#   location  => 'http://localhost/chocolatey',
+# }
+
+
+package {'roundhouse':
+  ensure   => '0.8.5.0',
+}
 
 # package {'roundhouse':
-#   ensure   => '0.8.5.0',
-
+#   ensure   => held,
 # }
-
-# package {'notepadplusplus.commandline':
-#   ensure   => installed,
-# }
-
-# package {'putty':
-#   ensure   => installed,
-# }
-
-package {'nugetpackageexplorer':
-  ensure          => installed,
-  provider        => 'chocolatey',
-  install_options => ['--noop', '--ignoreDependencies','-override', '-installArgs','"', '/VERYSILENT','/NORESTART','"'],
-}
 
 package {'launchy':
   ensure          => installed,
-  provider        => 'chocolatey',
-  install_options => ['--noop','-override', '-installArgs', '"/INSTALLDIR=""C:\Program', 'Files\somewhere"""'],
+  install_options => ['-override', '-installArgs','"', '/VERYSILENT','/NORESTART','"'],
 }
 
-package {'putty':
-  ensure          => installed,
-  provider        => 'chocolatey',
-  install_options => ['--noop','-override', '-installArgs', '"', '/INSTALLDIR=', '""','C:\Program', 'Files\somewhere','""','"'],
-}
 
-# package {'launchy':
-#   ensure   => installed,
-#   # install_options => "-override -installArgs '/VERYSILENT /NORESTART",
-# }
 
-# package {'nugetpackageexplorer':
-#   ensure => installed,
-#   source => 'https://chocolatey.org/api/v2/',
-# }
 
-# package {'ChocolateyGUI':
-#   ensure          => installed,
-#   install_options => "-ignoreDependencies -override -installArgs '/quiet'",
-# }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

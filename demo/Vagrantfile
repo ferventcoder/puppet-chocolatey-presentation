@@ -34,21 +34,25 @@ Vagrant.configure("2") do |config|
   config.winrm.username = "vagrant"
   config.winrm.password = "vagrant"
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
-  config.vm.network :forwarded_port, guest: 80, host: 8080, id: "web", auto_correct: true
+  # Port forward SSH (ssh is forwarded by default in most versions of Vagrant, but be sure)
+  # It's not necessary if you are not using SSH, but it doesn't hurt anything to have it
+  config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8090, id: "web", auto_correct: true
 
   config.vm.synced_folder "puppet/modules", "/ProgramData/PuppetLabs/puppet/etc/modules"
+  #config.vm.synced_folder "puppet/modules", "/ProgramData/PuppetLabs/code/environments/production/modules"
 
-  # This shell provisioner ensures .NET 4.0, Chocolatey, and Puppet are
-  # installed.
-  # Run this first, to get box setup, then comment this and
-  # change the provisioner from empty.pp to provision.pp
-  config.vm.provision :shell, :path => "shell/main.cmd"
+  #config.vm.provision :shell, :path => "shell/PrepareWindows.ps1"
+  #config.vm.provision :shell, :path => "shell/InstallPuppetFromMSI.ps1"
 
   # If you really want to see some output, use this line instead
   #config.vm.provision :puppet, :options => ["--debug --trace --verbose"] do |puppet|
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file  = "empty.pp"
+    puppet.manifest_file  = "provision.pp"
     puppet.module_path = "puppet/modules"
+    puppet.environment = "production"
   end
+
+  config.vm.provision :shell, :path => "shell/NotifyGuiAppsOfEnvironmentChanges.ps1"
 end

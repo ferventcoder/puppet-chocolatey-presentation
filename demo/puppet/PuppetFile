@@ -9,9 +9,10 @@ mod 'puppetlabs-reboot'
 mod 'puppetlabs-registry'
 mod 'puppet-windowsfeature'
 mod 'puppet-iis'
+mod 'badgerious-windows_env'
 #mod 'puppetlabs-dism'
 # win facts
 # windows_firewall
 
-mod 'chocolatey-chocolatey'
-mod 'chocolatey-chocolatey_server'
+#mod 'chocolatey-chocolatey'
+#mod 'chocolatey-chocolatey_server'
