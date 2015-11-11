@@ -18,7 +18,6 @@ Puppet On Windows
  1. Vagrant 1.5.4 (and below) - Install/upgrade vagrant-windows vagrant plugin. Open terminal/command line and type `vagrant plugin install vagrant-windows`
  1. Install/upgrade `sahara` vagrant plugin - `vagrant plugin install sahara`.
 
-
 ## Presentation
 
 The presentation is in keynote but there are other formats in the `Presentation` directory.
@@ -37,27 +36,28 @@ The presentation is in keynote but there are other formats in the `Presentation`
 
 ### Exercise 1 - Create a package
 
- 1. From the box, navigate to `c:\vagrant\packages` on the command line or powershell.
- 1. Follow the instructions to get setup for [templates](https://github.com/chocolatey/chocolateytemplates/blob/master/README.md).
- 1. Run `warmup chocolatey mypackage`.
- 1. Edit `mypackage/mypackage.nuspec` to remove items that end in url.
+ 1. From the Windows box, navigate to `c:\vagrant\packages` on the command line or powershell.
+ 1. Run `choco new mypackage`.
+ 1. Inspect the contents of the `mypackage` and `mypackage\tools` folder. Note a readme file that provides resources for creating packages.
+ 1. Edit `mypackage\mypackage.nuspec` to remove items that end in url.
  1. Change the version to `0.1.0`.
  1. Save and close the nuspec.
- 1. Edit `mypackage/tools/chocolateyInstall.ps1`. Make it look like:
+ 1. Edit `mypackage\tools\chocolateyInstall.ps1`. Make it look like:
     $packageName = 'mypackage'
     Write-Host "$packageName has been installed."
  1. Save and close the file.
+ 1. Delete `mypackage\tools\chocolateyInstall.ps1`
  1. Run `choco pack`.
  1. Note that there is now a `.nupkg` file in the directory.
- 1. Optionally open it with NuGet Package Explorer if you have that installed and inspect how everything is laid out.
+ 1. Optionally open it with NuGet Package Explorer if you have that installed and inspect how everything is laid out. NOTE: Certain newer items in the nuspec may cause this step not to work. You can alternative copy the nupkg over to a .zip file and unpack it normally and inspect the contents.
  1. This concludes exercise 1.
 
 ### Exercise 2 - Create a package server.
 
- 1. From the host, access `http://localhost:8080` (unless it conflicted, adjust as vagrant tells you the port is forwarded to). It should show nothing.
+ 1. From the host, access `http://localhost:8090` (unless it conflicted, adjust as vagrant tells you the port is forwarded to). It should show nothing.
  1. In `demo/puppet/manifests/provision.pp`, uncomment `include chocolateyserver`
  1. Run `vagrant provision` and wait for it to finish.
- 1. Now access `http://localhost:8080` again. Note the information displayed.
+ 1. Now access `http://localhost:8090` again. Note the information displayed.
  1. On the box itself, access `http://localhost`. Note the additional information displayed when you are local.
  1. This concludes exercise 2.
 
