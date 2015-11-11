@@ -1,14 +1,21 @@
+# 1.3.5 was the earliest known version of Vagrant to work with
+# Windows in some form
 Vagrant.require_version ">= 1.3.5" #, "< 1.6.5"
 if Vagrant::VERSION < '1.6.0'
   Vagrant.require_plugin "vagrant-windows"
 end
 
 Vagrant.configure("2") do |config|
+  # This could be an atlas provided box
+  # https://atlas.hashicorp.com/boxes/search
   config.vm.box = "win2012r2x64"
 
   config.vm.provider :virtualbox do |v, override|
+    # Unless you are using Atlas above in the vm.box name, you should
+    # uncomment and provide a url.
     #override.vm.box_url = "URL_HERE"
     v.gui = true
+    # box customizations for speed
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--memory", "2048"]
     v.customize ["modifyvm", :id, "--audio", "none"]
@@ -19,29 +26,42 @@ Vagrant.configure("2") do |config|
   config.vm.provider :vmware_fusion do |v, override|
     #override.vm.box_url = ENTER A URL TO A VALID VMWARE FUSION BASE BOX OF win2012r2
     v.gui = true
+    # box customizations for speed
     v.vmx["memsize"] = "2048"
     v.vmx["usb.present"] = "false"
     v.vmx["sound.present"] = "false"
     v.vmx["ide1:0.present"] = "false"
   end
 
+  # In newer Vagrant versions that support Windows natively we use the
+  # winrm communicator. In older vagrants it was handled by overrides in
+  # the vagrant-windows plugin
   if Vagrant::VERSION >= '1.6.0'
     config.vm.communicator = "winrm"
   end
 
+  # explicitly let the system know we are on Windows
   config.vm.guest = :windows
+  # set the timeout for commands
   config.windows.halt_timeout = 20
   config.winrm.username = "vagrant"
   config.winrm.password = "vagrant"
+
+  # open up forwarded ports from the guest system to the host.
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
   # Port forward SSH (ssh is forwarded by default in most versions of Vagrant, but be sure)
   # It's not necessary if you are not using SSH, but it doesn't hurt anything to have it
   config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
   config.vm.network :forwarded_port, guest: 80, host: 8090, id: "web", auto_correct: true
 
+  # create a symlink from the modules folder to the modules location on the Windows server.
   config.vm.synced_folder "puppet/modules", "/ProgramData/PuppetLabs/puppet/etc/modules"
   #config.vm.synced_folder "puppet/modules", "/ProgramData/PuppetLabs/code/environments/production/modules"
 
+  # These shell provisioners ensure that Windows is configured and Puppet is
+  # installed.
+  # Run this first, to get box setup, then comment this and
+  # change the provisioner from empty.pp to provision.pp
   #config.vm.provision :shell, :path => "shell/PrepareWindows.ps1"
   #config.vm.provision :shell, :path => "shell/InstallPuppetFromMSI.ps1"
 

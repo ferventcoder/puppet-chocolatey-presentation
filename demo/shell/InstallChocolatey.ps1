@@ -5,7 +5,7 @@ $env:Path += ";$ChocoInstallPath"
 
 if (!(Test-Path $ChocoInstallPath)) {
   # Install chocolatey
-  iex ((new-object net.webclient).DownloadString('http://chocolatey.org/install.ps1'))
+  iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 }
 
 #choco install chocolatey -pre
