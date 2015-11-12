@@ -25,3 +25,29 @@ class {'chocolatey':
   chocolatey_download_url => 'http://url/to/chocolatey.nupkg',
   use_7zip                => false,
 }
+
+# # disable default source
+# chocolatey::source {'chocolatey':
+#   enable => false,
+# }
+
+# chocolatey::source {'localpackages':
+#   ensure    => 'present',
+#   location  => 'C:\vagrant\resources\packages'
+# }
+
+
+# chocolatey::source {'localhost':
+#   ensure    => 'present',
+#   location  => 'http://localhost/chocolatey',
+# }
+
+# chocolatey_source {'local':
+#   ensure    => 'present',
+#   location  => 'http://localhost/chocolatey',
+# }
+
+
+# package {'roundhouse':
+#   ensure   => held,
+# }
