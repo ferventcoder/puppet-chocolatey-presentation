@@ -23,7 +23,8 @@ class {'chocolatey_server':
 package {'roundhouse':
   ensure   => '0.8.5.0',
 }
-
+#latest
+#installed
 
 package {'launchy':
   ensure          => installed,
