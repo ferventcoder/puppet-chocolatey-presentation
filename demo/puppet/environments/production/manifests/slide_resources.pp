@@ -6,12 +6,14 @@ package {'name_of_package':
   uninstall_options => ['-uninstallargs', '"','addtl', 'args', '"'],
 }
 
+# built-in Windows provider
 package { "Git version 2.6.1":
   ensure    => installed,
   source    => 'C:\temp\Git-2.6.1-32-bit.exe',
   install_options => ['/VERYSILENT']
 }
 
+# chocolatey provider
 package { 'git':
   ensure   => latest,
 }
@@ -24,6 +26,33 @@ include chocolatey
 class {'chocolatey':
   chocolatey_download_url => 'http://url/to/chocolatey.nupkg',
   use_7zip                => false,
+}
+
+chocolateysource {'chocolatey':
+  ensure   => disabled,
+}
+
+chocolateysource {'internal_server':
+  ensure   => present,
+  location => 'http://somewhere/internal',
+  priority => 1,
+}
+
+
+chocolateyfeature {'checksumFiles':
+  ensure => enabled,
+}
+
+chocolateyfeature {'useFipsCompliantChecksums':
+  ensure => enabled,
+}
+
+chocolateyconfig {'cacheLocation':
+  value  => 'c:\ProgramData\choco-cache',
+}
+
+chocolateyconfig {'commandExecutionTimeoutSeconds':
+  value  => '2700',
 }
 
 # # disable default source
