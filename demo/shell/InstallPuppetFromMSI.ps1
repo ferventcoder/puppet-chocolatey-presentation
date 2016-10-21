@@ -1,6 +1,7 @@
-$puppetVersion = '3.8.3'
+$puppetVersion = '1.7.0'
 $MsiUrl = "https://downloads.puppetlabs.com/windows/puppet-agent-$puppetVersion-x86.msi"
 $MsiUrlx64 = "https://downloads.puppetlabs.com/windows/puppet-agent-$puppetVersion-x64.msi"
+$puppetVersion = '3.8.7'
 $MsiUrl = "https://downloads.puppetlabs.com/windows/puppet-$puppetVersion.msi"
 $MsiUrlx64 = "https://downloads.puppetlabs.com/windows/puppet-$puppetVersion-x64.msi"
 $PuppetInstallerPath = 'c:\vagrant\resources\installers'
