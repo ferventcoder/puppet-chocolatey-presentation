@@ -1,0 +1,3 @@
+chocolateysource{ 'chocolatey':
+  ensure   => disabled,
+}
