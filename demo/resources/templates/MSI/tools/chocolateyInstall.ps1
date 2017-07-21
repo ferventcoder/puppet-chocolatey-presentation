@@ -11,7 +11,7 @@ $packageArgs = @{
   fileType      = 'MSI' #only one of these: exe, msi, msu [[InstallerType]]
 
   #MSI
-  silentArgs    = "/qn /norestart USE_SETTINGS_FROM_AD=0 /l*v `"$env:TEMP\chocolatey\$($packageName)\$($packageName).MsiInstall.log`""
+  silentArgs    = "/qn /norestart /l*v `"$env:TEMP\chocolatey\$($packageName)\$($packageName).MsiInstall.log`""
   validExitCodes= @(0, 3010, 1641)
   #OTHERS
   #silentArgs   ='[[SilentArgs]]' # /s /S /q /Q /quiet /silent /SILENT /VERYSILENT -s - try any of these to get the silent installer
