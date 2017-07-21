@@ -9,6 +9,8 @@ Vagrant.configure("2") do |config|
   # This setting will download the atlas box at
   # https://atlas.hashicorp.com/ferventcoder/boxes/win2012r2-x64-nocm
   config.vm.box = "ferventcoder/win2012r2-x64-nocm"
+  #config.vm.box = "mwrock/Windows2016"
+  #config.vm.box = "win2016x64"
   # You are likely going to need one of the below. I have not tested these
   # but it's likely they will work. The initial download of the box is going
   # to take quite awhile. Kick this off and go get tea/coffee.
@@ -68,8 +70,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
   # Port forward SSH (ssh is forwarded by default in most versions of Vagrant, but be sure)
   # It's not necessary if you are not using SSH, but it doesn't hurt anything to have it
-  config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
-  config.vm.network :forwarded_port, guest: 80, host: 8090, id: "web", auto_correct: true
+  #config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+  #config.vm.network :forwarded_port, guest: 80, host: 8090, id: "web", auto_correct: true
 
   # create a symlink from the modules folder to the modules location on the Windows server.
   config.vm.synced_folder "puppet/modules", "/ProgramData/PuppetLabs/puppet/etc/modules"
@@ -83,12 +85,18 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :path => "shell/InstallPuppetFromMSI.ps1"
 
   # If you really want to see some output, use this line instead
-  #config.vm.provision :puppet, :options => ["--debug --trace --verbose"] do |puppet|
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file  = "empty.pp"
+  config.vm.provision :puppet, :options => ["--debug --trace --verbose"] do |puppet|
+  #config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "puppet/environments/production/manifests"
+    puppet.manifest_file  = "provision.pp"
     puppet.module_path = "puppet/modules"
     puppet.environment = "production"
+    puppet.environment_path = "puppet/environments"
+    # Bug in facter 3.x - https://tickets.puppetlabs.com/browse/FACT-1510
+    # puppet.facter = {
+    #  "choco_install_path" =>  "C:\\ProgramData\\chocolatey",
+    #  "chocolateyversion"  =>  "0.10.3",
+    # }
   end
 
   if Vagrant::VERSION < '1.8.0'
