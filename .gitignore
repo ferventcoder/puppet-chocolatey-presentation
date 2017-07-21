@@ -10,3 +10,6 @@ demo/resources/NetFx4
 .librarian
 .tmp
 Puppetfile.lock
+license/
+createpackages/installers/
+demo/packages/
