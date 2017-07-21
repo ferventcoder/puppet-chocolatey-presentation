@@ -26,3 +26,7 @@ cmd.exe /c "net start lmhosts 2>&1"
 #Write-Host "Ensuring certificates are installed if box isn't updated"
 certutil -v -addstore Root "c:\vagrant\resources\certs\geotrust.global.pem"
 certutil -v -addstore Root "c:\vagrant\resources\certs\usertrust.network.pem"
+
+
+# set display resolution
+#Set-DisplayResolution 1280 960 -Force
