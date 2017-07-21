@@ -3,7 +3,7 @@
 forge "https://forgeapi.puppetlabs.com"
 
 #mod 'puppetlabs-windows'
-mod 'puppetlabs-powershell'
+
 mod 'puppetlabs-acl'
 mod 'puppetlabs-reboot'
 mod 'puppetlabs-registry'
@@ -14,5 +14,7 @@ mod 'badgerious-windows_env'
 # win facts
 # windows_firewall
 
-#mod 'chocolatey-chocolatey'
+# symlinked
+#mod 'puppetlabs-powershell'
+#mod 'puppetlabs-chocolatey'
 #mod 'chocolatey-chocolatey_server'
