@@ -11,5 +11,6 @@ demo/resources/NetFx4
 .tmp
 Puppetfile.lock
 license/
-createpackages/installers/
+demo/resources/licensed/createpackages/
 demo/packages/
+demo/resources/ChocolateyGui/
