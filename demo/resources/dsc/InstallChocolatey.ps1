@@ -3,7 +3,12 @@ $installLatestBeta = $true
 #$env:chocolateyVersion="0.9.10-beta-20160402"
 
 $installLocalFile = $false
-$localChocolateyPackageFilePath = 'C:\vagrant\resources\packages\chocolatey.0.10.7.nupkg'
+$localChocolateyPackageFilePath = 'C:\vagrant\resources\packages\chocolatey.0.10.8.nupkg'
+# search https://chocolatey.org/api/v2/Packages()?$filter=(Id%20eq%20%27chocolatey%27)%20and%20IsLatestVersion
+# https://github.com/puppetlabs/puppet-agent/blob/81f8caa0d1061b642c06233e5948ff37864b140c/bin/install-chocolatey.ps1
+
+#$packageRepo = '<INSERT REPO URL>'
+#$url = ($packageRepo.Trim('/'), 'Packages()?$filter=(Id%20eq%20%27chocolatey%27)%20and%20IsLatestVersion') -join '/'
 
 $ChocoInstallPath = "$($env:SystemDrive)\ProgramData\Chocolatey\bin"
 $env:ChocolateyInstall = "$($env:SystemDrive)\ProgramData\Chocolatey"

@@ -8,7 +8,7 @@ Configuration SoftwareManagement
     DebugMode = 'ForceModuleImport'
   }
 
-  cChocoInstaller chocoInstall
+  cChocoInstaller ChocoInstall
   {
     # default installation location - allows
     # Chocolatey to apply default security
@@ -17,18 +17,33 @@ Configuration SoftwareManagement
     ChocoInstallScriptUrl = 'file:///C:\InstallChoco.ps1'
   }
 
-  cChocoSource defaultChocoSource {
+  cChocoSource DefaultChocoSource {
     Ensure    = 'Absent'
     Name      = 'chocolatey'
     Source    = 'https://chocolatey.org/api/v2/'
   }
 
-  cChocoSource internalChocoSource {
+  cChocoSource InternalChocoSource {
     Ensure    = 'Present'
     Name      = 'internal_server'
     Source    = 'http://localhost/chocolatey'
     #Credentials = add credentials
     Priority  = 1
+  }
+
+  cChocoFeature FipsComplianceChocoFeature {
+    Ensure      = 'Present'
+    FeatureName = 'useFipsCompliantChecksums'
+  }
+
+  cChocoFeature ElevatedWarningsChocoFeature {
+    Ensure      = 'Absent'
+    FeatureName = 'showNonElevatedWarnings'
+  }
+
+  cChocoFeature RememberedArgsChocoFeature {
+    Ensure      = 'Present'
+    FeatureName = 'useRememberedArgumentsForUpgrades'
   }
 
   cChocoPackageInstaller ChromePackage {
@@ -37,7 +52,6 @@ Configuration SoftwareManagement
     Params      = 'package parameters'
     chocoParams = 'Params for choco.exe'
     Version     = 'package version'
-    Source      = 'location'
     AutoUpgrade = $False
   }
 
@@ -91,8 +105,6 @@ Configuration SoftwareManagement
   # )
   #     DependsOn = "[cChocoInstaller]ensureChocoInstall"
   #   }
-
-}
 }
 
 SoftwareManagement
