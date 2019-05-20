@@ -14,3 +14,6 @@ license/
 demo/resources/licensed/createpackages/
 demo/packages/
 demo/resources/ChocolateyGui/
+demo/resources/licensed/branding
+demo/resources/ignored
+
